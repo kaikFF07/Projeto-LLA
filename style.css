@@ -68,24 +68,26 @@ html, body {
   box-shadow: 0 0 20px #0ff;
 }
 
-/* Estilo para o container com imagem e legenda */
+/* Container para imagem e legenda */
 #selected-image-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex; /* Usando flexbox */
-  flex-direction: column; /* Coloca os itens em coluna, imagem acima e texto abaixo */
-  align-items: center; /* Alinha a imagem e o texto verticalmente ao centro */
-  justify-content: center; /* Alinha o conteúdo ao centro */
+  flex-direction: column; /* Coloca a imagem e o texto em coluna (imagem em cima, legenda embaixo) */
+  align-items: center; /* Alinha a imagem e o texto ao centro */
+  justify-content: center; /* Alinha o conteúdo no centro */
   z-index: 20;
   user-select: none;
-  gap: 10px; /* Espaçamento entre a imagem e o texto */
+  gap: 10px; /* Espaço entre a imagem e o texto */
+  width: 80%; /* Ajuste de largura do container */
 }
 
 /* Estilo da imagem */
 #selected-image {
-  max-width: 60%; /* Ajuste o tamanho da imagem */
+  width: 100%; /* A imagem ocupará 100% da largura do container */
+  max-width: 500px; /* Limita a largura da imagem */
   border-radius: 10px;
   box-shadow: 0 0 30px #0ff;
 }
@@ -98,46 +100,44 @@ html, body {
   font-style: italic;
   letter-spacing: 0.03em;
   min-height: 2.5em;
+  text-align: center;
+  padding: 10px;
 }
 
-/* Media Query para telas menores (dispositivos móveis) */
+#selected-image-container.hidden {
+  display: none; /* A div será escondida */
+}
+
+/* Responsividade para telas menores (dispositivos móveis) */
 @media screen and (max-width: 768px) {
   #selected-image-container {
-    flex-direction: column; /* Muda a direção do flexbox para coluna */
-    align-items: center; /* Alinha a imagem e o texto ao centro */
-    justify-content: center; /* Alinha o conteúdo ao centro */
-  }
-
-  #selected-image {
-    max-width: 80%; /* Ajusta o tamanho da imagem no mobile */
+    width: 90%; /* Aumenta a largura no mobile */
   }
 
   #selected-caption {
-    margin-top: 10px; /* Dá um pequeno espaçamento entre a imagem e o texto */
-    font-size: 1rem; /* Ajusta o tamanho da fonte para telas menores */
+    font-size: 1rem; /* Ajusta o tamanho da fonte */
+    padding: 8px; /* Diminui o padding no mobile */
+  }
+
+  #selected-image {
+    max-width: 80%; /* Ajusta a largura máxima da imagem no mobile */
   }
 }
 
+/* Responsividade para telas muito pequenas (smartphones) */
+@media screen and (max-width: 480px) {
+  #selected-image-container {
+    width: 95%; /* Ajusta a largura do container no mobile */
+  }
 
-#selected-image {
-  max-width: 60%; /* Ajuste o tamanho da imagem */
-  border-radius: 10px;
-  box-shadow: 0 0 30px #0ff;
-}
+  #selected-caption {
+    font-size: 1rem; /* Ajusta o tamanho da fonte para smartphones */
+    padding: 8px;
+  }
 
-#selected-caption {
-  margin-left: 20px; /* Espaço entre a imagem e o texto */
-  color: white; /* Cor do texto */
-  font-family: 'Dancing Script', cursive; /* Fonte para o texto */
-  font-size: 1.2rem; /* Tamanho do texto */
-  font-style: italic;
-  letter-spacing: 0.03em;
-  min-height: 2.5em;
-}
-
-
-#selected-image-container.hidden {
-  display: none;  /* A div será escondida */
+  #selected-image {
+    max-width: 100%; /* Ajusta a largura da imagem */
+  }
 }
 
 
