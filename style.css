@@ -74,12 +74,13 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex; /* Usando flexbox para alinhar os itens lado a lado por padrão */
-  align-items: center; /* Alinha a imagem e o texto verticalmente no centro */
-  justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+  display: flex; /* Usando flexbox */
+  flex-direction: column; /* Coloca os itens em coluna, imagem acima e texto abaixo */
+  align-items: center; /* Alinha a imagem e o texto verticalmente ao centro */
+  justify-content: center; /* Alinha o conteúdo ao centro */
   z-index: 20;
   user-select: none;
-  gap: 20px; /* Espaçamento entre a imagem e o texto */
+  gap: 10px; /* Espaçamento entre a imagem e o texto */
 }
 
 /* Estilo da imagem */
