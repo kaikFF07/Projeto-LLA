@@ -1,266 +1,254 @@
-// --- Fundo galáxia (igual anterior) ---
-
-const canvas = document.getElementById('galaxy-canvas');
-const ctx = canvas.getContext('2d');
-
-let width, height, cx, cy;
-
-function resize() {
-  width = window.innerWidth;
-  height = window.innerHeight;
-  cx = width / 2;
-  cy = height / 2;
-  canvas.width = width;
-  canvas.height = height;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-resize();
-window.addEventListener('resize', resize);
 
-class Star {
-  constructor(angle, radius, size, speed, color) {
-    this.angle = angle;
-    this.radius = radius;
-    this.size = size;
-    this.speed = speed;
-    this.color = color;
+#space-title {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #4af6ff;
+  text-shadow:
+    0 0 6px #4af6ff,
+    0 0 12px #4af6ff,
+    0 0 18px #00ffff,
+    0 0 30px #00ffff;
+  letter-spacing: 0.12em;
+  user-select: none;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* Fundo da galáxia */
+#galaxy-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  background: radial-gradient(ellipse at center, #000010 0%, #000000 100%);
+}
+
+#floating-images-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+/* Imagens flutuantes pequenas */
+.floating-image {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+  box-shadow: 0 0 10px #0ff;
+  transition: transform 0.3s ease;
+}
+
+/* Hover para imagens flutuantes */
+.floating-image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #0ff;
+}
+
+/* Container para imagem e legenda */
+#selected-image-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; /* Usando flexbox */
+  flex-direction: column; /* Coloca a imagem e o texto em coluna (imagem em cima, legenda embaixo) */
+  align-items: center; /* Alinha a imagem e o texto ao centro */
+  justify-content: center; /* Alinha o conteúdo no centro */
+  z-index: 20;
+  user-select: none;
+  gap: 10px; /* Espaço entre a imagem e o texto */
+  width: 80%; /* Ajuste de largura do container */
+}
+
+/* Estilo da imagem */
+#selected-image {
+  width: 100%; /* A imagem ocupará 100% da largura do container */
+  max-width: 500px; /* Limita a largura da imagem */
+  border-radius: 10px;
+  box-shadow: 0 0 30px #0ff;
+}
+
+/* Estilo da legenda */
+#selected-caption {
+  color: white;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  min-height: 2.5em;
+  text-align: center;
+  padding: 10px;
+}
+
+#selected-image-container.hidden {
+  display: none; /* A div será escondida */
+}
+
+/* Responsividade para telas menores (dispositivos móveis) */
+@media screen and (max-width: 768px) {
+  #selected-image-container {
+    width: 90%; /* Aumenta a largura no mobile */
   }
 
-  update() {
-    this.angle += this.speed;
-    this.radius *= 1.0005;
+  #selected-caption {
+    font-size: 1rem; /* Ajusta o tamanho da fonte */
+    padding: 8px; /* Diminui o padding no mobile */
   }
 
-  draw(ctx) {
-    const x = cx + this.radius * Math.cos(this.angle);
-    const y = cy + this.radius * Math.sin(this.angle);
-
-    const gradient = ctx.createRadialGradient(x, y, 0, x, y, this.size * 4);
-    gradient.addColorStop(0, this.color);
-    gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(x, y, this.size, 0, Math.PI * 2);
-    ctx.fill();
+  #selected-image {
+    max-width: 80%; /* Ajusta a largura máxima da imagem no mobile */
   }
 }
 
-const stars = [];
-const starCount = 200;
-
-function randomBetween(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-for (let i = 0; i < starCount; i++) {
-  const angle = Math.random() * Math.PI * 2;
-  const radius = Math.pow(Math.random(), 2) * 300;
-  const size = randomBetween(0.5, 1.5);
-  const speed = 0.0005 + radius * 0.000002;
-  const color = `rgba(180, 220, 255, ${randomBetween(0.2, 0.8)})`;
-  stars.push(new Star(angle, radius, size, speed, color));
-}
-
-function animateGalaxy() {
-  ctx.clearRect(0, 0, width, height);
-
-  const coreGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80);
-  coreGradient.addColorStop(0, 'rgba(200, 230, 255, 0.3)');
-  coreGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-  ctx.fillStyle = coreGradient;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 80, 0, Math.PI * 2);
-  ctx.fill();
-
-  stars.forEach(star => {
-    star.update();
-    star.draw(ctx);
-  });
-
-  requestAnimationFrame(animateGalaxy);
-}
-
-animateGalaxy();
-
-// --- Imagens flutuantes e interação ---
-
-const images = [
-  {
-    src: "https://cdn.pixabay.com/photo/2012/03/01/00/18/galaxy-19715_1280.jpg",
-    caption: "Galáxia espiral distante"
-  },
-  {
-    src: "https://cdn.pixabay.com/photo/2013/07/18/20/26/space-164471_1280.jpg",
-    caption: "Nebulosa colorida no espaço"
-  },
-  {
-    src: "https://cdn.pixabay.com/photo/2015/12/01/20/28/starry-night-1075783_1280.jpg",
-    caption: "Céu estrelado com Via Láctea"
-  },
-  {
-    src: "https://cdn.pixabay.com/photo/2015/03/26/09/54/solar-system-690157_1280.jpg",
-    caption: "Sistema Solar artístico"
-  },
-  {
-    src: "images/foto1.jpg",
-    caption: "A parte do caption (o texto que aparece ao lado da imagem) deve ser adicionada dentro do array images que você já tem. Cada objeto dentro do array de imagens pode ter tanto o caminho da imagem (src) quanto o texto de referência (caption)."
-  }
-];
-
-const floatingContainer = document.getElementById('floating-images-container');
-const selectedContainer = document.getElementById('selected-image-container');
-const selectedImage = document.getElementById('selected-image');
-const selectedCaption = document.getElementById('selected-caption');
-
-let floatingImages = [];
-let animationId;
-let mode = 'floating'; // 'floating' ou 'selected'
-let selectedIndex = null;
-
-// Cria imagens flutuantes pequenas
-images.forEach((imgData, index) => {
-  const img = document.createElement('img');
-  img.src = imgData.src;
-  img.classList.add('floating-image');
-  img.style.top = `${Math.random() * (window.innerHeight - 80)}px`;
-  img.style.left = `${Math.random() * (window.innerWidth - 80)}px`;
-  img.dataset.index = index;
-  floatingContainer.appendChild(img);
-
-  floatingImages.push({
-    element: img,
-    x: parseFloat(img.style.left),
-    y: parseFloat(img.style.top),
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-  });
-
-  img.addEventListener('click', (e) => {
-    e.stopPropagation(); // evita que o clique propague para o body
-    if (mode === 'floating') {
-      selectedIndex = index;
-      enterSelectedMode();
-    }
-  });
-});
-
-function animateFloating() {
-  floatingImages.forEach(imgObj => {
-    imgObj.x += imgObj.vx;
-    imgObj.y += imgObj.vy;
-
-    if (imgObj.x <= 0 || imgObj.x >= window.innerWidth - 80) imgObj.vx *= -1;
-    if (imgObj.y <= 0 || imgObj.y >= window.innerHeight - 80) imgObj.vy *= -1;
-
-    imgObj.element.style.left = imgObj.x + 'px';
-    imgObj.element.style.top = imgObj.y + 'px';
-  });
-
-  animationId = requestAnimationFrame(animateFloating);
-}
-
-function enterSelectedMode() {
-  mode = 'selected';
-
-  // Para animação das imagens flutuantes
-  cancelAnimationFrame(animationId);
-
-  // Esconde todas as imagens pequenas
-  floatingImages.forEach(imgObj => {
-    imgObj.element.style.display = 'none';
-  });
-
-  // Mostra imagem centralizada
-  const imgData = images[selectedIndex];
-  selectedImage.src = imgData.src;
-  selectedCaption.textContent = imgData.caption;
-  selectedContainer.classList.remove('hidden');
-}
-
-function exitSelectedMode() {
-  mode = 'floating';
-
-  // Esconde imagem centralizada
-  selectedContainer.classList.add('hidden'); // Torna o container invisível
-  selectedImage.src = ''; // Limpa a imagem selecionada
-  selectedCaption.textContent = ''; // Limpa o texto de legenda
-
-  // Mostra as imagens flutuantes novamente
-  floatingImages.forEach(imgObj => {
-    imgObj.element.style.display = 'block';
-
-    // Reposiciona aleatoriamente para variação
-    imgObj.x = Math.random() * (window.innerWidth - 80);
-    imgObj.y = Math.random() * (window.innerHeight - 80);
-    imgObj.vx = (Math.random() - 0.5) * 0.4;
-    imgObj.vy = (Math.random() - 0.5) * 0.4;
-    imgObj.element.style.left = imgObj.x + 'px';
-    imgObj.element.style.top = imgObj.y + 'px';
-  });
-
-  animateFloating();
-}
-
-
-// Clique em qualquer lugar da tela (incluindo na imagem ou legenda) fecha a imagem fixada
-document.body.addEventListener('click', () => {
-  if (mode === 'selected') {
-    exitSelectedMode(); // Chama a função para sair do modo de seleção
-  }
-});
-
-
-// Começa com animação flutuante
-animateFloating();
-
-// --- Relógio contando a partir de 29/03/2025 21:00 ---
-
-const clockElement = document.getElementById('date-time-clock');
-const startDate = new Date('2025-03-29T21:00:00');
-
-function updateClock() {
-  const now = new Date();
-  let diff = now - startDate; // diferença em ms
-
-  if (diff < 0) {
-    // se a data atual for antes da data inicial, mostrar 0
-    diff = 0;
+/* Responsividade para telas muito pequenas (smartphones) */
+@media screen and (max-width: 480px) {
+  #selected-image-container {
+    width: 95%; /* Ajusta a largura do container no mobile */
   }
 
-  const totalSeconds = Math.floor(diff / 1000);
+  #selected-caption {
+    font-size: 1rem; /* Ajusta o tamanho da fonte para smartphones */
+    padding: 8px;
+  }
 
-  const days = Math.floor(totalSeconds / (24 * 3600));
-  const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  // Formatar com zeros à esquerda
-  const formattedTime = `${days}d ${hours.toString().padStart(2,'0')}h:${minutes.toString().padStart(2,'0')}m:${seconds.toString().padStart(2,'0')}s`;
-
-  clockElement.textContent = formattedTime;
+  #selected-image {
+    max-width: 100%; /* Ajusta a largura da imagem */
+  }
 }
 
-setInterval(updateClock, 1000);
-updateClock();
 
-function enterSelectedMode() {
-  mode = 'selected';
-
-  // Para animação das imagens flutuantes
-  cancelAnimationFrame(animationId);
-
-  // Esconde todas as imagens pequenas
-  floatingImages.forEach(imgObj => {
-    imgObj.element.style.display = 'none';
-  });
-
-  // Mostra imagem à direita com o texto à esquerda
-  const imgData = images[selectedIndex];
-  selectedImage.src = imgData.src;
-  selectedCaption.textContent = imgData.caption;
-
-  // Garante que o container seja mostrado e o conteúdo esteja correto
-  selectedContainer.classList.remove('hidden');
+#selected-image {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 10px;
+  box-shadow: 0 0 30px #0ff;
 }
 
+#selected-caption {
+  margin-top: 12px;
+  font-style: italic;
+  font-size: 1.2rem;
+  min-height: 2.5em;
+  letter-spacing: 0.03em;
+}
+
+/* Container para data e hora */
+#date-time-container {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #7de6ff;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  user-select: none;
+  z-index: 30;
+  text-shadow:
+    0 0 4px #7de6ff,
+    0 0 8px #00bfff;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Responsividade para telas menores (dispositivos móveis) */
+@media screen and (max-width: 768px) {
+  #space-title {
+    font-size: 1.8rem;
+  }
+
+  #date-time-container {
+    top: 70px;
+    font-size: 1rem;
+  }
+
+  #floating-images-container {
+    pointer-events: none; /* Impede interação enquanto em modo flutuante */
+  }
+
+  .floating-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  #selected-image-container {
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  #selected-image {
+    max-width: 90%;
+    max-height: 60vh;
+  }
+}
+
+/* Responsividade para telas muito pequenas (smartphones) */
+@media screen and (max-width: 480px) {
+  #space-title {
+    font-size: 1.6rem;
+  }
+
+  .floating-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  #selected-image-container {
+    max-width: 95%;
+    max-height: 95%;
+  }
+
+  #selected-image {
+    max-width: 100%;
+    max-height: 50vh;
+  }
+}
+
+/* Responsividade para telas menores */
+@media screen and (max-width: 768px) {
+  #selected-image {
+    max-width: 50%;
+  }
+
+  #selected-caption {
+    font-size: 1rem;
+    margin-left: 10px;
+  }
+}
+
+#selected-caption {
+  color: white; /* Cor branca */
+  font-family: 'Dancing Script', cursive; /* Fonte "Dancing Script", com fallback para cursive */
+  font-size: 25px; /* Ajuste de tamanho da fonte */
+  letter-spacing: 0.03em; /* Distanciamento entre as letras */
+  margin-left: 20px; /* Espaço entre imagem e texto */
+  font-style: italic; /* Itálico */
+  min-height: 2.5em;
+}
 
