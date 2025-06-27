@@ -1,0 +1,215 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#space-title {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #4af6ff;
+  text-shadow:
+    0 0 6px #4af6ff,
+    0 0 12px #4af6ff,
+    0 0 18px #00ffff,
+    0 0 30px #00ffff;
+  letter-spacing: 0.12em;
+  user-select: none;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* Fundo da galáxia */
+#galaxy-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  background: radial-gradient(ellipse at center, #000010 0%, #000000 100%);
+}
+
+#floating-images-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+/* Imagens flutuantes pequenas */
+.floating-image {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+  box-shadow: 0 0 10px #0ff;
+  transition: transform 0.3s ease;
+}
+
+/* Hover para imagens flutuantes */
+.floating-image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #0ff;
+}
+
+#selected-image-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; /* Usando flexbox para alinhar os itens lado a lado */
+  align-items: center; /* Alinha a imagem e o texto verticalmente no centro */
+  justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+  z-index: 20;
+  user-select: none;
+}
+
+#selected-image {
+  max-width: 60%; /* Ajuste o tamanho da imagem */
+  border-radius: 10px;
+  box-shadow: 0 0 30px #0ff;
+}
+
+#selected-caption {
+  margin-left: 20px; /* Espaço entre a imagem e o texto */
+  color: white; /* Cor do texto */
+  font-family: 'Dancing Script', cursive; /* Fonte para o texto */
+  font-size: 1.2rem; /* Tamanho do texto */
+  font-style: italic;
+  letter-spacing: 0.03em;
+  min-height: 2.5em;
+}
+
+
+#selected-image-container.hidden {
+  display: none;  /* A div será escondida */
+}
+
+
+#selected-image {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 10px;
+  box-shadow: 0 0 30px #0ff;
+}
+
+#selected-caption {
+  margin-top: 12px;
+  font-style: italic;
+  font-size: 1.2rem;
+  min-height: 2.5em;
+  letter-spacing: 0.03em;
+}
+
+/* Container para data e hora */
+#date-time-container {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #7de6ff;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  user-select: none;
+  z-index: 30;
+  text-shadow:
+    0 0 4px #7de6ff,
+    0 0 8px #00bfff;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Responsividade para telas menores (dispositivos móveis) */
+@media screen and (max-width: 768px) {
+  #space-title {
+    font-size: 1.8rem;
+  }
+
+  #date-time-container {
+    top: 70px;
+    font-size: 1rem;
+  }
+
+  #floating-images-container {
+    pointer-events: none; /* Impede interação enquanto em modo flutuante */
+  }
+
+  .floating-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  #selected-image-container {
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  #selected-image {
+    max-width: 90%;
+    max-height: 60vh;
+  }
+}
+
+/* Responsividade para telas muito pequenas (smartphones) */
+@media screen and (max-width: 480px) {
+  #space-title {
+    font-size: 1.6rem;
+  }
+
+  .floating-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  #selected-image-container {
+    max-width: 95%;
+    max-height: 95%;
+  }
+
+  #selected-image {
+    max-width: 100%;
+    max-height: 50vh;
+  }
+}
+
+/* Responsividade para telas menores */
+@media screen and (max-width: 768px) {
+  #selected-image {
+    max-width: 50%;
+  }
+
+  #selected-caption {
+    font-size: 1rem;
+    margin-left: 10px;
+  }
+}
+
+#selected-caption {
+  color: white; /* Cor branca */
+  font-family: 'Dancing Script', cursive; /* Fonte "Dancing Script", com fallback para cursive */
+  font-size: 25px; /* Ajuste de tamanho da fonte */
+  letter-spacing: 0.03em; /* Distanciamento entre as letras */
+  margin-left: 20px; /* Espaço entre imagem e texto */
+  font-style: italic; /* Itálico */
+  min-height: 2.5em;
+}
+
