@@ -261,3 +261,68 @@ function enterSelectedMode() {
   // Garante que o container seja mostrado e o conteúdo esteja correto
   selectedContainer.classList.remove('hidden');
 }
+
+
+
+
+// Função para esconder o título e o relógio
+function hideTitleAndClock() {
+  document.getElementById('space-title').style.display = 'none'; // Esconde o título
+  document.getElementById('date-time-container').style.display = 'none'; // Esconde o relógio
+}
+
+// Função para mostrar o título e o relógio
+function showTitleAndClock() {
+  document.getElementById('space-title').style.display = 'block'; // Mostra o título
+  document.getElementById('date-time-container').style.display = 'flex'; // Mostra o relógio (flex para manter alinhado)
+}
+
+// Modificando enterSelectedMode para esconder o título e o relógio
+function enterSelectedMode() {
+  mode = 'selected';
+
+  // Esconde o título e o relógio
+  hideTitleAndClock();
+
+  // Para animação das imagens flutuantes
+  cancelAnimationFrame(animationId);
+
+  // Esconde todas as imagens pequenas
+  floatingImages.forEach(imgObj => {
+    imgObj.element.style.display = 'none';
+  });
+
+  // Mostra a imagem centralizada
+  const imgData = images[selectedIndex];
+  selectedImage.src = imgData.src;
+  selectedCaption.textContent = imgData.caption;
+  selectedContainer.classList.remove('hidden');
+}
+
+// Modificando exitSelectedMode para mostrar o título e o relógio
+function exitSelectedMode() {
+  mode = 'floating';
+
+  // Mostra o título e o relógio novamente
+  showTitleAndClock();
+
+  // Esconde imagem centralizada
+  selectedContainer.classList.add('hidden'); // Torna o container invisível
+  selectedImage.src = ''; // Limpa a imagem selecionada
+  selectedCaption.textContent = ''; // Limpa o texto de legenda
+
+  // Mostra as imagens flutuantes novamente
+  floatingImages.forEach(imgObj => {
+    imgObj.element.style.display = 'block';
+
+    // Reposiciona aleatoriamente para variação
+    imgObj.x = Math.random() * (window.innerWidth - 80);
+    imgObj.y = Math.random() * (window.innerHeight - 80);
+    imgObj.vx = (Math.random() - 0.5) * 0.4;
+    imgObj.vy = (Math.random() - 0.5) * 0.4;
+    imgObj.element.style.left = imgObj.x + 'px';
+    imgObj.element.style.top = imgObj.y + 'px';
+  });
+
+  animateFloating();
+}
