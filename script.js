@@ -202,18 +202,13 @@ function exitSelectedMode() {
 }
 
 
-
-// Clique fora da imagem selecionada fecha o modo fixo
+// Clique em qualquer lugar da tela (incluindo na imagem ou legenda) fecha a imagem fixada
 document.body.addEventListener('click', () => {
   if (mode === 'selected') {
-    exitSelectedMode();
+    exitSelectedMode(); // Chama a função para sair do modo de seleção
   }
 });
 
-// Para que clique na imagem selecionada não feche o modo fixo
-selectedContainer.addEventListener('click', (e) => {
-  e.stopPropagation();
-});
 
 // Começa com animação flutuante
 animateFloating();
