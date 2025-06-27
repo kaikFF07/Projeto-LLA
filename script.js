@@ -201,7 +201,6 @@ function exitSelectedMode() {
   animateFloating();
 }
 
-
 // Clique em qualquer lugar da tela (incluindo na imagem ou legenda) fecha a imagem fixada
 document.body.addEventListener('click', () => {
   if (mode === 'selected') {
@@ -262,5 +261,3 @@ function enterSelectedMode() {
   // Garante que o container seja mostrado e o conteúdo esteja correto
   selectedContainer.classList.remove('hidden');
 }
-
-
