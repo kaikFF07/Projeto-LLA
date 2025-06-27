@@ -68,17 +68,55 @@ html, body {
   box-shadow: 0 0 20px #0ff;
 }
 
+/* Estilo para o container com imagem e legenda */
 #selected-image-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex; /* Usando flexbox para alinhar os itens lado a lado */
+  display: flex; /* Usando flexbox para alinhar os itens lado a lado por padrão */
   align-items: center; /* Alinha a imagem e o texto verticalmente no centro */
   justify-content: flex-start; /* Alinha o conteúdo à esquerda */
   z-index: 20;
   user-select: none;
+  gap: 20px; /* Espaçamento entre a imagem e o texto */
 }
+
+/* Estilo da imagem */
+#selected-image {
+  max-width: 60%; /* Ajuste o tamanho da imagem */
+  border-radius: 10px;
+  box-shadow: 0 0 30px #0ff;
+}
+
+/* Estilo da legenda */
+#selected-caption {
+  color: white;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  min-height: 2.5em;
+}
+
+/* Media Query para telas menores (dispositivos móveis) */
+@media screen and (max-width: 768px) {
+  #selected-image-container {
+    flex-direction: column; /* Muda a direção do flexbox para coluna */
+    align-items: center; /* Alinha a imagem e o texto ao centro */
+    justify-content: center; /* Alinha o conteúdo ao centro */
+  }
+
+  #selected-image {
+    max-width: 80%; /* Ajusta o tamanho da imagem no mobile */
+  }
+
+  #selected-caption {
+    margin-top: 10px; /* Dá um pequeno espaçamento entre a imagem e o texto */
+    font-size: 1rem; /* Ajusta o tamanho da fonte para telas menores */
+  }
+}
+
 
 #selected-image {
   max-width: 60%; /* Ajuste o tamanho da imagem */
