@@ -62,6 +62,7 @@ html, body {
   transition: transform 0.3s ease;
 }
 
+
 /* Hover para imagens flutuantes */
 .floating-image:hover {
   transform: scale(1.1);
