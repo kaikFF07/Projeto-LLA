@@ -326,3 +326,13 @@ function exitSelectedMode() {
 
   animateFloating();
 }
+
+window.onload = function () {
+  const popup = document.getElementById('entry-popup');
+  const enterButton = document.getElementById('enter-button');
+
+  enterButton.addEventListener('click', () => {
+    // Esconde o popup
+    popup.style.display = 'none';
+  });
+};
