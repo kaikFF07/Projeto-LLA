@@ -245,9 +245,52 @@ html, body {
 #selected-caption {
   color: white; /* Cor branca */
   font-family: 'Dancing Script', cursive; /* Fonte "Dancing Script", com fallback para cursive */
-  font-size: 25px; /* Ajuste de tamanho da fonte */
+  font-size: 18px; /* Ajuste de tamanho da fonte */
   letter-spacing: 0.03em; /* Distanciamento entre as letras */
   margin-left: 20px; /* Espaço entre imagem e texto */
   font-style: italic; /* Itálico */
   min-height: 2.5em;
+}
+
+
+/* Estilo do Popup de Entrada */
+#entry-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 1); /* Fundo completamente opaco */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  pointer-events: all; /* Garante que o popup seja interativo */
+}
+
+#popup-content {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+#enter-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: hsl(278, 94%, 51%);
+  border: none;
+  cursor: pointer;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+
+#extra-legend {
+  margin-top: 10px;         /* Diminui o espaço superior */
+  font-size: 0.5rem;        /* Diminui o tamanho da fonte */
+  color: hsl(278, 94%, 51%);           /* Cor da legenda */
+  font-style: italic;       /* Estilo itálico */
+  text-align: center;       /* Alinhamento do texto */
 }
