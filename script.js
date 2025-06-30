@@ -146,9 +146,20 @@ images.forEach((imgData, index) => {
 
 function animateFloating() {
   floatingImages.forEach(imgObj => {
-    imgObj.x += imgObj.vx;
-    imgObj.y += imgObj.vy;
+    const nextX = imgObj.x + imgObj.vx;
+    const nextY = imgObj.y + imgObj.vy;
 
+    // Verificar se a nova posição vai resultar em colisão
+    if (checkCollision(imgObj)) {
+      // Se houver colisão, inverta a direção do movimento
+      imgObj.vx *= -1; 
+      imgObj.vy *= -1;
+    } else {
+      imgObj.x = nextX; // Atualiza a posição da imagem
+      imgObj.y = nextY;
+    }
+
+    // Verifica se a imagem chegou nas bordas da tela e inverte a direção
     if (imgObj.x <= 0 || imgObj.x >= window.innerWidth - 80) imgObj.vx *= -1;
     if (imgObj.y <= 0 || imgObj.y >= window.innerHeight - 80) imgObj.vy *= -1;
 
@@ -158,6 +169,7 @@ function animateFloating() {
 
   animationId = requestAnimationFrame(animateFloating);
 }
+
 
 function enterSelectedMode() {
   mode = 'selected';
@@ -336,3 +348,11 @@ window.onload = function () {
     popup.style.display = 'none';
   });
 };
+
+function checkCollision(imgObj) {
+  return floatingImages.some(otherImgObj => {
+    if (imgObj === otherImgObj) return false; // Ignora a verificação da própria imagem
+    const distance = Math.sqrt(Math.pow(imgObj.x - otherImgObj.x, 2) + Math.pow(imgObj.y - otherImgObj.y, 2));
+    return distance < 80; // Ajuste o valor conforme o tamanho da imagem (80px no caso)
+  });
+}
