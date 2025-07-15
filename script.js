@@ -161,7 +161,7 @@ function animateFloating() {
       // Se as imagens estiverem muito próximas (distância menor que 160px), afastá-las
       if (distance < 100) { // 160px é o limite de segurança para evitar que elas se toquem
         const angle = Math.atan2(imgObj.y - otherImgObj.y, imgObj.x - otherImgObj.x);
-        const speedAdjustment = 0.02; // Ajuste da velocidade ao afastar as imagens
+        const speedAdjustment = 0.15; // Ajuste da velocidade ao afastar as imagens
 
         // Modifica a direção das imagens para se afastarem (ajusta as velocidades)
         imgObj.vx += Math.cos(angle) * speedAdjustment;
