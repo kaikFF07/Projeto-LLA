@@ -24,7 +24,6 @@ class Star {
     this.speed = speed;
     this.color = color;
   }
-
   update() {
     this.angle += this.speed;
     this.radius *= 1.0005;
