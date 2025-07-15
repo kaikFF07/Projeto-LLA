@@ -146,6 +146,7 @@ images.forEach((imgData, index) => {
 });
 
 // Função para animar as imagens flutuantes
+// Função para animar as imagens flutuantes
 function animateFloating() {
   floatingImages.forEach(imgObj => {
     const nextX = imgObj.x + imgObj.vx;
@@ -159,9 +160,9 @@ function animateFloating() {
       const distance = Math.sqrt(Math.pow(imgObj.x - otherImgObj.x, 2) + Math.pow(imgObj.y - otherImgObj.y, 2));
 
       // Se as imagens estiverem muito próximas (distância menor que 160px), afastá-las
-      if (distance < 100) { // 160px é o limite de segurança para evitar que elas se toquem
+      if (distance < 100) { // 100px é o limite de segurança para evitar que elas se toquem
         const angle = Math.atan2(imgObj.y - otherImgObj.y, imgObj.x - otherImgObj.x);
-        const speedAdjustment = 0.15; // Ajuste da velocidade ao afastar as imagens
+        const speedAdjustment = 0.01; // Ajuste da velocidade ao afastar as imagens
 
         // Modifica a direção das imagens para se afastarem (ajusta as velocidades)
         imgObj.vx += Math.cos(angle) * speedAdjustment;
@@ -187,6 +188,41 @@ function animateFloating() {
 
   animationId = requestAnimationFrame(animateFloating);
 }
+
+function initializeFloatingImages() {
+  // Definir uma velocidade constante para todas as imagens
+  const constantSpeed = 0.01; // Velocidade constante para as imagens
+
+  floatingImages.forEach((imgData, index) => {
+    const img = document.createElement('img');
+    img.src = imgData.src;
+    img.classList.add('floating-image');
+    img.style.top = `${Math.random() * (window.innerHeight - 80)}px`;
+    img.style.left = `${Math.random() * (window.innerWidth - 80)}px`;
+    img.dataset.index = index;
+    floatingContainer.appendChild(img);
+
+    // A velocidade agora será constante para todas as imagens
+    floatingImages.push({
+      element: img,
+      x: parseFloat(img.style.left),
+      y: parseFloat(img.style.top),
+      vx: (Math.random() - 0.5) * constantSpeed, // Ajuste para a velocidade constante
+      vy: (Math.random() - 0.5) * constantSpeed, // Ajuste para a velocidade constante
+    });
+
+    img.addEventListener('click', (e) => {
+      e.stopPropagation(); // evita que o clique propague para o body
+      if (mode === 'floating') {
+        selectedIndex = index;
+        enterSelectedMode();
+      }
+    });
+  });
+}
+
+// Iniciar imagens com velocidade constante
+initializeFloatingImages();
 
 function enterSelectedMode() {
   mode = 'selected';
