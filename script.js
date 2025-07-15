@@ -105,7 +105,7 @@ animateGalaxy();
   { src: "images/foto22.jpg", caption: "Primeira foto que postei no meu isnta com você, eu realmente queria ter postado essas nos story, mas ia parecer muito emocionado, e eu não sou é claro." },
   { src: "images/foto23.jpg", caption: "Se loco olha esse beijo, nu que delicia" },
   { src: "images/foto24.jpg", caption: "Essa é a minha foto preferida até o meu momento"},
-  { src: "images/foto28.jpg", caption: "Galáxia distante em radiação X" },
+  { src: "images/foto28.jpg", caption: " Olha que fofinhos"},
 ];
 
 const floatingContainer = document.getElementById('floating-images-container');
@@ -372,4 +372,70 @@ function checkCollision(imgObj) {
     const distance = Math.sqrt(Math.pow(imgObj.x - otherImgObj.x, 2) + Math.pow(imgObj.y - otherImgObj.y, 2));
     return distance < 80; // Ajuste o valor conforme o tamanho da imagem (80px no caso)
   });
+}
+window.onload = function () {
+  const popup = document.getElementById('entry-popup');
+  const enterButton = document.getElementById('enter-button');
+
+  // Adicionando evento ao botão 'Sim'
+  enterButton.addEventListener('click', () => {
+    // Esconde o popup
+    popup.style.display = 'none';
+
+    // Exibe a tela preta com a legenda antes de mostrar o conteúdo
+    showBlackScreenWithCaption();
+  });
+};
+
+function showBlackScreenWithCaption() {
+  // Criar o container para a tela preta
+  const blackScreenContainer = document.createElement('div');
+  blackScreenContainer.id = 'black-screen-container';
+  blackScreenContainer.style.position = 'fixed';
+  blackScreenContainer.style.top = '0';
+  blackScreenContainer.style.left = '0';
+  blackScreenContainer.style.width = '100vw';
+  blackScreenContainer.style.height = '100vh';
+  blackScreenContainer.style.backgroundColor = '#000';
+  blackScreenContainer.style.display = 'flex';
+  blackScreenContainer.style.justifyContent = 'center';
+  blackScreenContainer.style.alignItems = 'center';
+  blackScreenContainer.style.zIndex = '50';
+
+  // Criar a legenda
+  const caption = document.createElement('div');
+  caption.textContent = "Primeiramente eu quero dizer que esse site foi desenvolvido por Kaik/GPT, portanto, não espere que tenha ficado 100%. Eu tentei deixei da forma que eu mais gostei, de acordo com as minhas limitações, porém, com certeza eu vou fazer um melhor quando eu realmente souber programar,aguarde. Esse site foi desenvolvido com o intuito de demonstrar o quanto eu te amo, eu queria te dar algo que eu realmente fiz, não que eu não tenha feito as outras coisas, mas queria algo criado por mim, entende? Espero que goste, eu te amo muito Lívia, muito mesmo!";
+  caption.style.color = '#fff';
+  caption.style.fontSize = '1rem';
+  caption.style.fontFamily = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+  caption.style.fontWeight = 'bold';
+  caption.style.textAlign = 'center';
+
+  // Adicionar a legenda ao container
+  blackScreenContainer.appendChild(caption);
+
+  // Adicionar o container da tela preta ao body
+  document.body.appendChild(blackScreenContainer);
+
+  // Adicionar evento de clique para avançar para o conteúdo
+  blackScreenContainer.addEventListener('click', () => {
+    // Esconde a tela preta
+    blackScreenContainer.style.display = 'none';
+
+    // Mostrar o conteúdo original
+    showTitleAndClock();
+    animateFloating();
+  });
+}
+
+// Função para esconder o título e o relógio
+function hideTitleAndClock() {
+  document.getElementById('space-title').style.display = 'none';
+  document.getElementById('date-time-container').style.display = 'none';
+}
+
+// Função para mostrar o título e o relógio
+function showTitleAndClock() {
+  document.getElementById('space-title').style.display = 'block';
+  document.getElementById('date-time-container').style.display = 'flex';
 }
