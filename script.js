@@ -83,28 +83,37 @@ function animateGalaxy() {
 animateGalaxy();
 
 // --- Imagens flutuantes e interação ---
-
-const images = [
-  {
-    src: "https://cdn.pixabay.com/photo/2012/03/01/00/18/galaxy-19715_1280.jpg",
-    caption: "Galáxia espiral distante"
-  },
-  {
-    src: "https://cdn.pixabay.com/photo/2013/07/18/20/26/space-164471_1280.jpg",
-    caption: "Nebulosa colorida no espaço"
-  },
-  {
-    src: "https://cdn.pixabay.com/photo/2015/12/01/20/28/starry-night-1075783_1280.jpg",
-    caption: "Céu estrelado com Via Láctea"
-  },
-  {
-    src: "https://cdn.pixabay.com/photo/2015/03/26/09/54/solar-system-690157_1280.jpg",
-    caption: "Sistema Solar artístico"
-  },
-  {
-    src: "images/foto1.jpg",
-    caption: "A parte do caption (o texto que aparece ao lado da imagem) deve ser adicionada dentro do array images que você já tem. Cada objeto dentro do array de imagens pode ter tanto o caminho da imagem (src) quanto o texto de referência (caption)."
-  }
+ const images = [
+  { src: "images/foto1.jpg", caption: "Sistema Solar" },
+  { src: "images/foto2.jpg", caption: "Sistema Solar artístico" },
+  { src: "images/foto3.jpg", caption: "Céu estrelado com Via Láctea" },
+  { src: "images/foto4.jpg", caption: "Nebulosa colorida no espaço" },
+  { src: "images/foto5.jpg", caption: "Galáxia espiral distante" },
+  { src: "images/foto6.jpg", caption: "Nebulosa de Órion" },
+  { src: "images/foto7.jpg", caption: "Campo de estrelas" },
+  { src: "images/foto8.jpg", caption: "Via Láctea sobre as montanhas" },
+  { src: "images/foto9.jpg", caption: "Aglomerado de galáxias" },
+  { src: "images/foto10.jpg", caption: "Estrela supernova" },
+  { src: "images/foto11.jpg", caption: "Cúmulo globular" },
+  { src: "images/foto12.jpg", caption: "Galáxia espiral em forma de borboleta" },
+  { src: "images/foto13.jpg", caption: "Galáxia com braços espirais" },
+  { src: "images/foto14.jpg", caption: "Sistema de anéis planetários" },
+  { src: "images/foto15.jpg", caption: "Buraco negro no centro da galáxia" },
+  { src: "images/foto16.jpg", caption: "Nebulosa de Carina" },
+  { src: "images/foto17.jpg", caption: "Campo de asteroides" },
+  { src: "images/foto18.jpg", caption: "Estrela binária" },
+  { src: "images/foto19.jpg", caption: "Cometa em passagem próxima" },
+  { src: "images/foto20.jpg", caption: "Galáxia irregular" },
+  { src: "images/foto21.jpg", caption: "Zona habitável de uma estrela" },
+  { src: "images/foto22.jpg", caption: "Vista telescópica de um exoplaneta" },
+  { src: "images/foto23.jpg", caption: "Estrelas de formação recente" },
+  { src: "images/foto24.jpg", caption: "Galáxia ativa no centro" },
+  { src: "images/foto25.jpg", caption: "Nuvem de gás intergaláctica" },
+  { src: "images/foto26.jpg", caption: "Planeta rochoso em órbita" },
+  { src: "images/foto27.jpg", caption: "Estrela gigante vermelha" },
+  { src: "images/foto28.jpg", caption: "Galáxia distante em radiação X" },
+  { src: "images/foto29.jpg", caption: "Supernova em colapso" },
+  { src: "images/foto30.jpg", caption: "Cometa de longo período" }
 ];
 
 const floatingContainer = document.getElementById('floating-images-container');
@@ -150,15 +159,36 @@ function animateFloating() {
     const nextX = imgObj.x + imgObj.vx;
     const nextY = imgObj.y + imgObj.vy;
 
-    // Atualiza a posição da imagem sem verificar colisão
+    // Verificar colisões com outras imagens
+    floatingImages.forEach(otherImgObj => {
+      if (imgObj === otherImgObj) return; // Ignorar a própria imagem
+
+      // Calcular a distância entre as imagens
+      const distance = Math.sqrt(Math.pow(imgObj.x - otherImgObj.x, 2) + Math.pow(imgObj.y - otherImgObj.y, 2));
+
+      // Se as imagens estiverem muito próximas (distância menor que 160px), afastá-las
+      if (distance < 100) { // 160px é o limite de segurança para evitar que elas se toquem
+        const angle = Math.atan2(imgObj.y - otherImgObj.y, imgObj.x - otherImgObj.x);
+        const speedAdjustment = 0.02; // Ajuste da velocidade ao afastar as imagens
+
+        // Modifica a direção das imagens para se afastarem (ajusta as velocidades)
+        imgObj.vx += Math.cos(angle) * speedAdjustment;
+        imgObj.vy += Math.sin(angle) * speedAdjustment;
+
+        otherImgObj.vx -= Math.cos(angle) * speedAdjustment;
+        otherImgObj.vy -= Math.sin(angle) * speedAdjustment;
+      }
+    });
+
+    // Atualiza a posição da imagem
     imgObj.x = nextX;
     imgObj.y = nextY;
 
     // Verifica se a imagem chegou nas bordas da tela e inverte a direção
-    // As bordas ainda funcionam para garantir que as imagens não saiam da tela
     if (imgObj.x <= 0 || imgObj.x >= window.innerWidth - 80) imgObj.vx *= -1;
     if (imgObj.y <= 0 || imgObj.y >= window.innerHeight - 80) imgObj.vy *= -1;
 
+    // Atualiza a posição das imagens no estilo
     imgObj.element.style.left = imgObj.x + 'px';
     imgObj.element.style.top = imgObj.y + 'px';
   });
