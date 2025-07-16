@@ -1,4 +1,3 @@
-// --- Fundo galáxia (igual anterior) ---
 
 const canvas = document.getElementById('galaxy-canvas');
 const ctx = canvas.getContext('2d');
