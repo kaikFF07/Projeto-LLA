@@ -15,7 +15,6 @@ function resize() {
 }
 resize();
 window.addEventListener('resize', resize);
-
 class Star {
   constructor(angle, radius, size, speed, color) {
     this.angle = angle;
