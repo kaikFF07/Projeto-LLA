@@ -1,7 +1,6 @@
 
 const canvas = document.getElementById('galaxy-canvas');
 const ctx = canvas.getContext('2d');
-
 let width, height, cx, cy;
 
 function resize() {
