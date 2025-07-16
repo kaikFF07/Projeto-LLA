@@ -57,7 +57,6 @@ for (let i = 0; i < starCount; i++) {
   const color = `rgba(180, 220, 255, ${randomBetween(0.2, 0.8)})`;
   stars.push(new Star(angle, radius, size, speed, color));
 }
-
 function animateGalaxy() {
   ctx.clearRect(0, 0, width, height);
 
@@ -73,7 +72,6 @@ function animateGalaxy() {
     star.update();
     star.draw(ctx);
   });
-
   requestAnimationFrame(animateGalaxy);
 }
 
